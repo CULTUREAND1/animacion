@@ -5,27 +5,40 @@ function init() {
   scene = new THREE.Scene();
 
   // Cámara
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 5;
+  camera = new THREE.PerspectiveCamera(
+    75, 
+    window.innerWidth / window.innerHeight, 
+    0.1, 
+    1000
+  );
+  camera.position.z = 3; // Cámara más cerca
 
   // Renderizador
   renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.getElementById('container').appendChild(renderer.domElement);
+  document.getElementById("container").appendChild(renderer.domElement);
 
-  // Luz
-  const light = new THREE.PointLight(0xffffff, 1);
-  light.position.set(10, 10, 10);
-  scene.add(light);
-
-  // Cubo
+  // Geometría y material del cubo
   const geometry = new THREE.BoxGeometry();
-  const material = new THREE.MeshStandardMaterial({ color: 0x00ffcc });
+  const material = new THREE.MeshStandardMaterial({
+    color: 0x00ffcc,
+    roughness: 0.5,
+    metalness: 0.8
+  });
   cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
-  // Redimensionar
-  window.addEventListener('resize', () => {
+  // Luz ambiental
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  scene.add(ambientLight);
+
+  // Luz puntual
+  const pointLight = new THREE.PointLight(0xffffff, 1);
+  pointLight.position.set(5, 5, 5);
+  scene.add(pointLight);
+
+  // Ajuste en redimensionamiento
+  window.addEventListener("resize", () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -37,7 +50,7 @@ function init() {
 function animate() {
   requestAnimationFrame(animate);
 
-  // Rotación del cubo
+  // Rotación animada del cubo
   cube.rotation.x += 0.01;
   cube.rotation.y += 0.01;
 
