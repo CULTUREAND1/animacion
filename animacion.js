@@ -1,42 +1,47 @@
-let x, y;
-let speedX, speedY;
-let ballSize = 50;
-let reboteSound;
+let scene, camera, renderer, cube;
 
-function preload() {
-  reboteSound = loadSound('rebote.mp3'); // Asegúrate de tener este archivo en tu carpeta
+function init() {
+  // Escena
+  scene = new THREE.Scene();
+
+  // Cámara
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  // Renderizador
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.getElementById('container').appendChild(renderer.domElement);
+
+  // Luz
+  const light = new THREE.PointLight(0xffffff, 1);
+  light.position.set(10, 10, 10);
+  scene.add(light);
+
+  // Cubo
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshStandardMaterial({ color: 0x00ffcc });
+  cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  // Redimensionar
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  animate();
 }
 
-function setup() {
-  createCanvas(600, 400);
-  x = width / 2;
-  y = height / 2;
-  speedX = random(3, 5);
-  speedY = random(3, 5);
-  noStroke();
-  fill(random(255), random(255), random(255));
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Rotación del cubo
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
 }
 
-function draw() {
-  background(30);
-
-  // Dibuja la pelota
-  ellipse(x, y, ballSize);
-
-  // Movimiento
-  x += speedX;
-  y += speedY;
-
-  // Rebote en los bordes
-  if (x < ballSize / 2 || x > width - ballSize / 2) {
-    speedX *= -1;
-    fill(random(255), random(255), random(255));
-    if (reboteSound.isLoaded()) reboteSound.play();
-  }
-
-  if (y < ballSize / 2 || y > height - ballSize / 2) {
-    speedY *= -1;
-    fill(random(255), random(255), random(255));
-    if (reboteSound.isLoaded()) reboteSound.play();
-  }
-}
+init();
