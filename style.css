@@ -1,12 +1,14 @@
-body {
+body, html {
     margin: 0;
+    padding: 0;
     overflow: hidden;
-    background-color: #ffffff;
-}
+    background-color: #000;
+  }
   
-#container {
+  #lienzo3D {
+    display: block;
     width: 100vw;
     height: 100vh;
-    display: block;
-}
+  }
+  
   
