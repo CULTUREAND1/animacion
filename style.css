@@ -1,0 +1,67 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #0b0c2a;
+  height: 100vh;
+}
+
+.sky {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #0b0c2a, #1b1e44);
+}
+
+.moon {
+  position: absolute;
+  top: 50%;
+  left: 0%;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle at 30% 30%, #fff, #ccc);
+  border-radius: 50%;
+  animation: moveMoon 30s linear infinite;
+}
+
+@keyframes moveMoon {
+  0% { left: -10%; top: 50%; }
+  50% { left: 50%; top: 10%; }
+  100% { left: 110%; top: 50%; }
+}
+
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.2; }
+  to { opacity: 1; }
+}
+
+.meteor {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, white, transparent);
+  transform: rotate(45deg);
+  animation: meteorAnim 1s linear forwards;
+}
+
+@keyframes meteorAnim {
+  0% {
+    left: -100px;
+    top: 0px;
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    top: 100%;
+    opacity: 0;
+  }
+}
